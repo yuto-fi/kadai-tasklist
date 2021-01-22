@@ -26,4 +26,5 @@
     {!! link_to_route('tasks.create', '新規タスク', [], ['class' => 'btn btn-primary']) !!}
     
     
+    
 @endsection
