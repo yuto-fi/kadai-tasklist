@@ -19,6 +19,7 @@ class TasksController extends Controller
             // 認証済みユーザを取得
             $user = \Auth::user();
             // ユーザの投稿の一覧を作成日時の降順で取得
+            
             $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
         
             return view('tasks.index', [
@@ -60,14 +61,18 @@ class TasksController extends Controller
             'status' => 'required|max:10',
             'content' =>'required|max:255',
          ]);
+         if (\Auth::id() === $task->user_id) {
+         
           $request->user()->tasks()->create([
             'status' => $request->status,
             'content' => $request->content,
         ]);
-         
-
-        // トップページへリダイレクトさせる
+         // トップページへリダイレクトさせる
         return redirect('/');
+         }
+         else{
+             return back();
+         }
     }
 
     /**
@@ -79,12 +84,18 @@ class TasksController extends Controller
     public function show($id)
     {
          // idの値でメッセージを検索して取得
-        $task = Task::findOrFail($id);
-
+         
+             
+            $task = Task::findOrFail($id);
+        if (\Auth::id() === $task->user_id) {
         // メッセージ詳細ビューでそれを表示
-        return view('tasks.show', [
-            'task' => $task,
+           return view('tasks.show', [
+              'task' => $task,
         ]);
+         }
+         else{
+             return back();
+         }
     }
 
     /**
@@ -99,13 +110,18 @@ class TasksController extends Controller
         // idの値でメッセージを検索して取得
         
         $task = Task::findOrFail($id);
-        
+        if (\Auth::id() === $task->user_id) {
 
         // メッセージ編集ビューでそれを表示
         return view('tasks.edit', [
             'task' => $task,
         ]);
+        }
+        else{
+            return back();
+        }
     }
+    
 
     /**
      * Update the specified resource in storage.
