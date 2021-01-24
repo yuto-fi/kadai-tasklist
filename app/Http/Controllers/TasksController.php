@@ -43,9 +43,11 @@ class TasksController extends Controller
         $task = new Task;
 
         // メッセージ作成ビューを表示
-        return view('tasks.create', [
-            'task' => $task,
-        ]);
+    
+           return view('tasks.create', [
+              'task' => $task,
+          ]);
+        
     }
 
     /**
@@ -61,7 +63,7 @@ class TasksController extends Controller
             'status' => 'required|max:10',
             'content' =>'required|max:255',
          ]);
-         if (\Auth::id() === $task->user_id) {
+         
          
           $request->user()->tasks()->create([
             'status' => $request->status,
@@ -69,10 +71,7 @@ class TasksController extends Controller
         ]);
          // トップページへリダイレクトさせる
         return redirect('/');
-         }
-         else{
-             return back();
-         }
+        
     }
 
     /**
