@@ -43,11 +43,14 @@ class TasksController extends Controller
         $task = new Task;
 
         // メッセージ作成ビューを表示
-    
+        
+        
            return view('tasks.create', [
               'task' => $task,
           ]);
-        
+      
+           return redirect('/');
+       
     }
 
     /**
@@ -93,7 +96,7 @@ class TasksController extends Controller
         ]);
          }
          else{
-             return back();
+             return redirect('/');
          }
     }
 
@@ -117,7 +120,7 @@ class TasksController extends Controller
         ]);
         }
         else{
-            return back();
+            return redirect('/');
         }
     }
     
